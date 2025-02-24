@@ -1,0 +1,13 @@
+{
+  "name": "discord-roblox-bot",
+  "version": "1.0.0",
+  "description": "A Discord bot that interacts with Roblox",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.0.0",
+    "noblox.js": "^4.9.0"
+  }
+}
