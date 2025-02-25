@@ -1,9 +1,14 @@
-DISCORD_TOKEN: undefined
-ROBLOX_COOKIE: undefined
-Failed to log into Roblox: Error: Required argument "cookie" is missing
-    at Object.setCookie (C:\Users\Dom\Desktop\discord-roblox-bot\node_modules\noblox.js\lib\internal\wrap.js:69:19)
-    at C:\Users\Dom\Desktop\discord-roblox-bot\index.js:39:18
-    at Object.<anonymous> (C:\Users\Dom\Desktop\discord-roblox-bot\index.js:46:3)
+> discord-roblox-bot@1.0.0 start
+> node index.js
+
+C:\Users\Dom\Desktop\discord-roblox-bot\node_modules\discord.js\src\client\Client.js:529
+      throw new DiscordjsTypeError(ErrorCodes.ClientMissingIntents);
+      ^
+
+TypeError [ClientMissingIntents]: Valid intents must be provided for the Client.
+    at Client._validateOptions (C:\Users\Dom\Desktop\discord-roblox-bot\node_modules\discord.js\src\client\Client.js:529:13)
+    at new Client (C:\Users\Dom\Desktop\discord-roblox-bot\node_modules\discord.js\src\client\Client.js:80:10)
+    at Object.<anonymous> (C:\Users\Dom\Desktop\discord-roblox-bot\index.js:8:16)
     at Module._compile (node:internal/modules/cjs/loader:1554:14)
     at Object..js (node:internal/modules/cjs/loader:1706:10)
     at Module.load (node:internal/modules/cjs/loader:1289:32)
@@ -11,14 +16,8 @@ Failed to log into Roblox: Error: Required argument "cookie" is missing
     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
     at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:170:5)
-    at node:internal/main/run_main_module:36:49
-C:\Users\Dom\Desktop\discord-roblox-bot\node_modules\discord.js\src\client\Client.js:216
-    if (!token || typeof token !== 'string') throw new DiscordjsError(ErrorCodes.TokenInvalid);
-                                                   ^
+    at node:internal/main/run_main_module:36:49 {
+  code: 'ClientMissingIntents'
+}
 
-Error [TokenInvalid]: An invalid token was provided.
-    at Client.login (C:\Users\Dom\Desktop\discord-roblox-bot\node_modules\discord.js\src\client\Client.js:216:52)
-    at C:\Users\Dom\Desktop\discord-roblox-bot\index.js:45:10
-    at Object.<anonymous> (C:\Users\Dom\Desktop\discord-roblox-bot\index.js:46:3)
-    at Module._compile (node:internal/modules/cjs/loader:1554:14)
-    at Object..js (node:internal/modules/cjs/loader:1706:10)
+Node.js v22.14.0
