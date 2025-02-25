@@ -1,38 +1,46 @@
-const { Client, GatewayIntentBits } = require('discord.js');
+const Discord = require('discord.js');
 const noblox = require('noblox.js');
-require('dotenv').config();
+const dotenv = require('dotenv');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+// Load environment variables from .env file
+dotenv.config();
+
+// Print environment variables to verify they are loaded correctly
+console.log('DISCORD_TOKEN:', process.env.DISCORD_TOKEN);
+console.log('ROBLOX_COOKIE:', process.env.ROBLOX_COOKIE);
+
+const client = new Discord.Client();
+const token = process.env.DISCORD_TOKEN;
+const robloxCookie = process.env.ROBLOX_COOKIE;
+
+if (!token || !robloxCookie) {
+  console.error('Missing DISCORD_TOKEN or ROBLOX_COOKIE in environment variables.');
+  process.exit(1);
+}
 
 client.once('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log('Discord bot is online!');
+  noblox.setCookie(robloxCookie)
+    .then(() => {
+      console.log('Logged into Roblox!');
+    })
+    .catch(console.error);
 });
 
-client.on('messageCreate', async message => {
-  if (message.content.startsWith('!roblox')) {
-    const args = message.content.split(' ');
-    const username = args[1];
-
-    if (!username) {
-      message.reply('Please provide a Roblox username.');
-      return;
-    }
-
+client.on('message', async message => {
+  if (message.content === '!userinfo') {
     try {
-      const userId = await noblox.getIdFromUsername(username);
-      const userInfo = await noblox.getPlayerInfo(userId);
-
-      message.reply(`Username: ${userInfo.username}\nDisplay Name: ${userInfo.displayName}\nStatus: ${userInfo.status}\nFriends: ${userInfo.friendCount}`);
+      const robloxUser = await noblox.getPlayerInfo({ userId: message.author.id });
+      message.channel.send(`Roblox Username: ${robloxUser.username}\nRoblox ID: ${robloxUser.userId}`);
     } catch (error) {
-      message.reply('An error occurred while fetching the Roblox user information.');
-      console.error(error);
+      console.error('Failed to fetch Roblox user info:', error);
+      message.channel.send('Failed to fetch Roblox user info.');
     }
   }
 });
 
-client.login(process.env.DISCORD_TOKEN);
-
-// Initialize noblox.js
-noblox.setCookie(process.env.ROBLOX_COOKIE).then(() => {
-  console.log('Logged into Roblox!');
-}).catch(console.error);
+client.login(token)
+  .catch(error => {
+    console.error('Failed to login to Discord:', error);
+    process.exit(1);
+  });
